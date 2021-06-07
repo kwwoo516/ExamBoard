@@ -6,7 +6,6 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Import Screens
 import Home from './DrawerScreens/Home';
-import Addinfo from './DrawerScreens/Addinfo';
 import Examlist from './DrawerScreens/Examlist';
 import Settings from './DrawerScreens/Settings';
 import Todolist from './DrawerScreens/Todolist';
@@ -24,7 +23,7 @@ const homeScreenStack = ({navigation}) => {
         name="Home"
         component={Home}
         options={{
-          title: 'Home', //Set Header Title
+          title: '홈', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
@@ -61,7 +60,7 @@ const settingScreenStack = ({navigation}) => {
         name="Settings"
         component={Settings}
         options={{
-          title: 'Settings', //Set Header Title
+          title: '설정', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -88,7 +87,7 @@ const ExamlistScreenStack = ({navigation}) => {
         name="Examlist"
         component={Examlist}
         options={{
-          title: 'Examlist', //Set Header Title
+          title: '시험 게시판', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -115,34 +114,7 @@ const todolistScreenStack = ({navigation}) => {
         name="Todolist"
         component={Todolist}
         options={{
-          title: 'Todolist', //Set Header Title
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const addInfoScreenStack = ({navigation}) => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Addinfo"
-      screenOptions={{
-        headerLeft: () => (
-          <NavigationDrawerHeader navigationProps={navigation} />
-        ),
-        headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
-        },
-        headerTintColor: '#fff', //Set Header text color
-        headerTitleStyle: {
-          fontWeight: 'bold', //Set Header text style
-        },
-      }}>
-      <Stack.Screen
-        name="Addinfo"
-        component={Addinfo}
-        options={{
-          title: 'Addinfo', //Set Header Title
+          title: '시험 정보', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -156,7 +128,7 @@ const userinfoScreenStack = ({navigation}) => {
         name="Userinfo"
         component={Userinfo}
         options={{
-          title: 'Userinfo', //Set Header Title
+          title: '사용자 정보', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
@@ -188,32 +160,27 @@ const DrawerNavigatorRoutes = (props) => {
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
+        options={{drawerLabel: '홈'}}
         component={homeScreenStack}
       />
       <Drawer.Screen
-        name="addInfoScreenStack"
-        options={{drawerLabel: 'Add Info Screen'}}
-        component={addInfoScreenStack}
-      />
-      <Drawer.Screen
         name="ExamlistScreenStack"
-        options={{drawerLabel: 'Examlist Screen'}}
+        options={{drawerLabel: '시험 게시판'}}
         component={ExamlistScreenStack}
       />
       <Drawer.Screen
         name="todolistScreenStack"
-        options={{drawerLabel: 'Todolist Screen'}}
+        options={{drawerLabel: '시험 정보'}}
         component={todolistScreenStack}
       />
       <Drawer.Screen
         name="userinfoScreenStack"
-        options={{drawerLabel: 'Userinfo Screen'}}
+        options={{drawerLabel: '사용자 정보'}}
         component={userinfoScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{drawerLabel: '설정'}}
         component={settingScreenStack}
       />
     </Drawer.Navigator>

@@ -7,51 +7,62 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import Examlist from './Examlist';
+import Todolist from './Todolist';
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flex: 1, padding: 16}}>
-        <TouchableOpacity
-          style={styles.buttonIconStyle}
-          activeOpacity={0.5}    
-          onPress={() => navigation.navigate('Addinfo')}
-          >
-          <Text style={styles.buttonTextStyle}>+</Text>
-        </TouchableOpacity>
-        <View
+        <Image
+          source={require('../../../assets/homelogo.png')}
           style={{
-            flex: 1,
-            alignItems: 'center',
             justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              marginBottom: 16,
-            }}>
-            Example of Splash, Login and Sign Up in React Native
-            {'\n\n'}
-            This is the Home Screen
-          </Text>
-        </View>
+            alignItems: 'center',
+            width: '100%',
+            height: 100,
+            resizeMode: 'contain',
+            marginTop: 30,
+            marginBottom: 30,
+          }}
+        />
+        <TouchableOpacity
+          style={styles.imagePic}
+          activeOpacity={0.5}    
+          onPress={() => navigation.navigate('Examlist')}
+          >
+          <Image
+              source={require('../../../assets/board.png')}
+              style={{
+                width: '70%',
+                height: 100,
+                resizeMode: 'contain',
+                marginTop: 30,
+                marginBottom: 10,
+              }}
+          />
+          <Text style={styles.textStyle}>시험 게시판</Text>
+        </TouchableOpacity>
         <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          Splash, Login and Register Example{'\n'}React Native
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          www.aboutreact.com
-        </Text>
+          style={{paddingVertical:30}}
+        />
+        <TouchableOpacity
+          style={styles.imagePic}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Todolist')}
+          >
+          <Image
+              source={require('../../../assets/todolist.png')}
+              style={{
+                width: '70%',
+                height: 100,
+                resizeMode: 'contain',
+                marginTop: 30,
+                marginBottom: 10,
+              }}
+          />
+          <Text style={styles.textStyle}>시험 정보</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -88,9 +99,18 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 15,
   },
+  imagePic: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonTextStyle: {
     color: '#FFFFFF',
     paddingVertical: 10,
     fontSize: 56,
   },
+  textStyle:{
+    color: 'black',
+    fontSize: 20,
+    textAlign: 'center',
+  }
 });

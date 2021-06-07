@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
       margin: 10,
     },
     buttonStyle: {
-      backgroundColor: '#7DE24E',
+      backgroundColor: 'blue',
       borderWidth: 0,
       color: '#FFFFFF',
       borderColor: '#7DE24E',
@@ -89,12 +89,13 @@ const styles = StyleSheet.create({
       marginLeft: 35,
       marginRight: 35,
       marginTop: 20,
-      marginBottom: 25,
+      marginBottom: 12,
     },
     buttonTextStyle: {
       color: '#FFFFFF',
       paddingVertical: 10,
       fontSize: 16,
+      fontWeight: 'bold',
     },
     inputStyle: {
       flex: 1,

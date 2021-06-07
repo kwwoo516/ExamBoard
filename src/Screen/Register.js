@@ -170,7 +170,7 @@ const Register = (props) => {
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#307ecc'}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -195,7 +195,7 @@ const Register = (props) => {
               style={styles.inputStyle}
               onChangeText={(userId) => setUserId(userId)}
               underlineColorAndroid="#f000"
-              placeholder="ID"
+              placeholder="아이디"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="none"
               returnKeyType="next"
@@ -210,7 +210,7 @@ const Register = (props) => {
               style={styles.inputStyle}
               onChangeText={(userNickname) => setUserNickname(userNickname)}
               underlineColorAndroid="#f000"
-              placeholder="Nickname"
+              placeholder="닉네임"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="none"
               // keyboardType="email-address"
@@ -229,7 +229,7 @@ const Register = (props) => {
               onChangeText={(userPassword) => setUserPassword(userPassword)
               }
               underlineColorAndroid="#f000"
-              placeholder="Password"
+              placeholder="비밀번호"
               placeholderTextColor="#8b9cb5"
               ref={passwordRef}
               returnKeyType="next"
@@ -246,7 +246,7 @@ const Register = (props) => {
               style={styles.inputStyle}
               onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               underlineColorAndroid="#f000"
-              placeholder="phone number"
+              placeholder="전화번호"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
               ref={phoneNumberRef}
@@ -269,7 +269,7 @@ const Register = (props) => {
               style={styles.inputStyle}
               onChangeText={(userVerifyCode) => setUserVerifyCode(userVerifyCode)}
               underlineColorAndroid="#f000"
-              placeholder="verify code"
+              placeholder="인증번호"
               placeholderTextColor="#8b9cb5"
               keyboardType="numeric"
               ref={userVerifyCodeRef}
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
+    backgroundColor: 'blue',
     borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,

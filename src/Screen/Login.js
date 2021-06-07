@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   Image,
+  ImageBackground,
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -88,9 +89,9 @@ const Login = ({navigation}) => {
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../../assets/dogs.png')}
+                source={require('../../assets/logo3.png')}
                 style={{
-                  width: '50%',
+                  width: '70%',
                   height: 100,
                   resizeMode: 'contain',
                   margin: 30,
@@ -103,10 +104,9 @@ const Login = ({navigation}) => {
                 onChangeText={(userId) =>
                   setUserId(userId)
                 }
-                placeholder="ID" //dummy@abc.com
+                placeholder="아이디"
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
-                // keyboardType="email-address"
                 returnKeyType="next"
                 onSubmitEditing={() =>
                   passwordRef.current &&
@@ -122,7 +122,7 @@ const Login = ({navigation}) => {
                 onChangeText={(userPassword) =>
                   setUserPassword(userPassword)
                 }
-                placeholder="Password" //12345
+                placeholder="비밀번호" //12345
                 placeholderTextColor="#8b9cb5"
                 keyboardType="default"
                 ref={passwordRef}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#307ecc',
+    backgroundColor: 'white',
     alignContent: 'center',
   },
   SectionStyle: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
+    backgroundColor: 'blue',
     borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
-    marginBottom: 25,
+    marginBottom: 20,
   },
   buttonTextStyle: {
     color: '#FFFFFF',
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     borderColor: '#dadae8',
   },
   registerTextStyle: {
-    color: '#FFFFFF',
+    color: 'black',
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 14,
