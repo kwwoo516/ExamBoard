@@ -1,0 +1,21 @@
+bottom tab = home, setting, user info, test info
+sidebar = board, todolist, 인증
+
+
+
+네트워크
+    - localhost x -> local ip (서버에도 설정)
+
+
+
+할일
+- 로그인 O
+- 회원가입 O
+- userinfo
+- under바, side바 구분, 게시판 정리하기
+- alter로 바꿀 수 있으면 바꾸기 -> 새로고침 기능?
+- Redirect 만들기하는곳.
+- 디자인 깔끔하게
+    버튼 모양 가지각색
+    색 깔끔하게
+    이미지 넣으려면 넣고
