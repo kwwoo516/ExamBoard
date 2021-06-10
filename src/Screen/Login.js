@@ -144,12 +144,6 @@ const Login = ({navigation}) => {
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>로그인</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={TestPress}>
-              <Text style={styles.buttonTextStyle}>Test</Text>
-            </TouchableOpacity>
             <Text
               style={styles.registerTextStyle}
               onPress={() => navigation.navigate('Register')}>

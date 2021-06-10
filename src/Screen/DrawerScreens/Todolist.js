@@ -13,7 +13,7 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import Modal from '../Modal';
+import ModalEx from '../ModalEx';
 
 class Todolist extends Component{
     constructor(props){
@@ -81,12 +81,42 @@ class Todolist extends Component{
                     );
             });
         }
-        return( this.state.open ? <Modal open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></Modal> :
+        return( this.state.open ? <ModalEx open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></ModalEx> :
             <ScrollView>
-                <View className="header">
-                    <TextInput onChangeText = {(text) => this.setState({...this.state, examId : text})} value = {this.state.examId} placeholder = {"시험 이름"}/>
-                    <Button onPress = {() => this.searchExam()} title = "검색"></Button>
-                    {element}
+                <View className="header"
+                    style={{marginTop:20,
+                            marginBottom:20}}>
+                    <Image 
+                        source={require('../../../assets/search.png')}
+                        style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: 100,
+                            resizeMode: 'contain',
+                            marginTop: 30,
+                            marginBottom: 30,
+                        }}/>
+                    <TextInput 
+                        style = {styles.inputTextStyle}
+                        onChangeText = {(text) => this.setState({...this.state, examId : text})} value = {this.state.examId} 
+                        placeholder = {"시험 이름"}/>
+                    <TouchableOpacity 
+                        onPress = {() => this.searchExam()}
+                        style = {styles.buttonStyle}>
+                        <Text style={styles.buttonTextStyle}>
+                            검색
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={{
+                        marginHorizontal:4,
+                        borderWidth:2,
+                        backgroundColor: "#FFFFCC",
+                        }}>
+                        <Text style={{marginLeft:5,marginVertical:5}}>
+                            {element}
+                        </Text>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -94,3 +124,39 @@ class Todolist extends Component{
 }
 
 export default Todolist;
+
+const styles = StyleSheet.create({
+    buttonStyle: {
+        width:"50%",
+      backgroundColor: 'blue',
+      borderWidth: 1,
+      color: '#FFFFFF',
+      borderColor: '#006600',
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 30,
+      marginLeft: "25%",
+      marginTop: 15,
+      marginBottom: 20,
+    },
+    buttonTextStyle: {
+      color: '#FFFFFF',
+      textAlign: 'center',
+      paddingVertical: 6,
+      fontSize: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight: 'bold',
+    },
+    inputTextStyle: {
+        borderWidth: 2,
+        color:'black',
+        borderColor: 'black',
+        backgroundColor: "#FFFFCC",
+        textAlign:'center',
+        width:"70%",
+        marginLeft:"15%",
+
+    }
+  });

@@ -6,8 +6,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 // Import Screens
 import Home from './DrawerScreens/Home';
+import HomeNav from './DrawerScreens/HomeNav';
 import Examlist from './DrawerScreens/Examlist';
-import Settings from './DrawerScreens/Settings';
 import Todolist from './DrawerScreens/Todolist';
 import Userinfo from './DrawerScreens/Userinfo';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
@@ -18,10 +18,10 @@ const Drawer = createDrawerNavigator();
 
 const homeScreenStack = ({navigation}) => {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="HomeNav">
       <Stack.Screen
-        name="Home"
-        component={Home}
+        name="HomeNav"
+        component={HomeNav}
         options={{
           title: '홈', //Set Header Title
           headerLeft: () => (
@@ -34,33 +34,6 @@ const homeScreenStack = ({navigation}) => {
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const settingScreenStack = ({navigation}) => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Settings"
-      screenOptions={{
-        headerLeft: () => (
-          <NavigationDrawerHeader navigationProps={navigation} />
-        ),
-        headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
-        },
-        headerTintColor: '#fff', //Set Header text color
-        headerTitleStyle: {
-          fontWeight: 'bold', //Set Header text style
-        },
-      }}>
-      <Stack.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          title: '설정', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -177,11 +150,6 @@ const DrawerNavigatorRoutes = (props) => {
         name="userinfoScreenStack"
         options={{drawerLabel: '사용자 정보'}}
         component={userinfoScreenStack}
-      />
-      <Drawer.Screen
-        name="settingScreenStack"
-        options={{drawerLabel: '설정'}}
-        component={settingScreenStack}
       />
     </Drawer.Navigator>
   );

@@ -14,11 +14,12 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import Modal from '../Modal';
+import ModalEx from '../ModalEx';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from 'expo-image-manipulator';
 import axios from 'axios';
+import Board from './Board';
 //import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 //import { forModalPresentationIOS } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
@@ -40,6 +41,7 @@ class Write extends Component{
             uploadedImg : false,
             disabled : true,
             count : 0,
+
         })
     }
     
@@ -171,6 +173,7 @@ class Write extends Component{
                 }
                 else if(json.hasOwnProperty('success_message')){
                     this.setState({...this.state, writeComplete : true});
+                    this.props.redirect();
                 }
             })
             .catch(error => console.log('Error : ', error));
@@ -190,36 +193,145 @@ class Write extends Component{
         }
         var bulletStyle = {
             marginTop: 10,
-            marginLeft : 100,
-            marginRight : 100,
+            marginLeft : 10,
+            marginRight : 10,
             height:500,
             padding:20,
-            backgroundColor: "rosybrown",
+            backgroundColor: "#FFFFCC",
+            borderWidth: 2,
+            
         }
         
-        const upload = <Button id="specialfour" disabled = {this.state.disabled} onPress = {() => this.takeImage()} title = "이미지업로드"></Button>
+        const upload = <TouchableOpacity id="specialfour" disabled = {this.state.disabled} onPress = {() => this.takeImage()}
+        style={this.state.disabled ? styles.DisablebuttonStyle : styles.buttonStyle}>
+            <Text style={styles.buttonTextStyle}>
+                이미지 업로드
+            </Text>
+        </TouchableOpacity>
         return(
-            this.state.open ? <Modal open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></Modal> : this.state.writeComplete ?
-            //redirect코드 들어가야됨
-            <Text>Redirect 필요</Text> :
-            <View>
-            <View style={contentStlye}>
-                <Text>글쓰기</Text>
-                <View>
-                    <TextInput onChangeText={(text) => this.setState({...this.state, title : text})} value={this.state.title} placeholderText = "제목입력"/>
-                    <Button onPress={() => this.checkTitle()} title = "중복확인" ></Button>
-                </View>
-                <View>
-                   {upload}
-                </View>                
-                <TextInput multiline = {true} style={bulletStyle} onChangeText={(text) => this.setState({...this.state, content: text})} value={this.state.content} placeholderText = "내용입력"/>
-                <View>
-                <Button onPress={() => this.completeWrite()} title = "글 작성 완료"></Button>
-                </View>
-           </View>
-        </View>
+            this.state.open ? <ModalEx open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></ModalEx> : this.state.writeComplete ?
+            //redirect코드 들어가야됨 <Text>Redirect 필요</Text>
+            <Board examId = {this.state.examId}></Board> :
+            <KeyboardAvoidingView>
+                <ScrollView>
+                    <View>
+                        <View style={contentStlye}>
+                            <Text style={styles.headerTextStyle}>
+                                글쓰기
+                            </Text>
+                            <View>
+                                <TextInput 
+                                    style={{
+                                        marginHorizontal:10,
+                                        borderWidth: 2,
+                                        color:'black',
+                                        borderColor: 'black',
+                                        backgroundColor: "#FFFFCC",
+                                    }}
+                                    onChangeText={(text) => this.setState({...this.state, title : text})} value={this.state.title} 
+                                    placeholder = " 제목 입력"/>
+                                <TouchableOpacity style={styles.buttonStyle} onPress={() => this.checkTitle()}>
+                                    <Text style={styles.buttonTextStyle}>중복확인</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                            {upload}
+                            </View>                
+                            <TextInput 
+                                multiline = {true} 
+                                style={bulletStyle} 
+                                onChangeText={(text) => this.setState({...this.state, content: text})} value={this.state.content} 
+                                placeholder = "내용 입력"/>
+                            <View>
+                            <TouchableOpacity style={styles.buttonStyle} onPress={() => this.completeWrite()}>
+                                <Text style={styles.buttonTextStyle}>
+                                    글 작성 완료
+                                </Text>
+                            </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         )
     }
 }
 
 export default Write;
+
+const styles = StyleSheet.create({
+    mainBody: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#307ecc',
+      alignContent: 'center',
+    },
+    SectionStyle: {
+      flexDirection: 'row',
+      height: 40,
+      marginTop: 20,
+      marginLeft: 35,
+      marginRight: 35,
+      margin: 10,
+    },
+    buttonStyle: {
+      backgroundColor: 'blue',
+      borderWidth: 0,
+      color: '#FFFFFF',
+      borderColor: '#7DE24E',
+      height: 40,
+      alignItems: 'center',
+      borderRadius: 30,
+      marginLeft: 35,
+      marginRight: 35,
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    DisablebuttonStyle: {
+        backgroundColor: 'skyblue',
+        borderWidth: 0,
+        color: '#FFFFFF',
+        borderColor: '#7DE24E',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: 35,
+        marginRight: 35,
+        marginTop: 10,
+        marginBottom: 10,
+      },
+    buttonTextStyle: {
+      color: '#FFFFFF',
+      paddingVertical: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    inputStyle: {
+      flex: 1,
+      color: 'white',
+      paddingLeft: 15,
+      paddingRight: 15,
+      borderWidth: 1,
+      borderRadius: 30,
+      borderColor: '#dadae8',
+    },
+    registerTextStyle: {
+      color: '#FFFFFF',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 14,
+      alignSelf: 'center',
+      padding: 10,
+    },
+    errorTextStyle: {
+      color: 'red',
+      textAlign: 'center',
+      fontSize: 14,
+    },
+    headerTextStyle: {
+        marginVertical:10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+  });

@@ -12,6 +12,10 @@ import Splash from './Screen/Splash';
 import Login from './Screen/Login';
 import Register from './Screen/Register';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
+import HomeNav from './Screen/DrawerScreens/HomeNav';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 const Stack = createStackNavigator();
 
@@ -63,6 +67,12 @@ const App = () => {
         <Stack.Screen
           name="DrawerNavigationRoutes"
           component={DrawerNavigationRoutes}
+          // Hiding header for Navigation Drawer
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HomeNav"
+          component={HomeNav}
           // Hiding header for Navigation Drawer
           options={{headerShown: false}}
         />

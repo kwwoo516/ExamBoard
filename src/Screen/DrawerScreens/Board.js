@@ -12,7 +12,7 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import Modal from '../Modal';
+import ModalEx from '../ModalEx';
 import Bullet from './Bullet';
 import Write from './Write';
 
@@ -75,6 +75,16 @@ class Board extends Component{
         this.loadPage();
     }
 
+    writeComplete(){
+        this.setState({...this.state, writecheck : false});
+        this.loadPage();
+    }
+
+    backBoard(){
+        this.setState({...this.state, boardcheck : false});
+        this.loadPage();
+    }
+
     openModal = () => {
         this.setState({...this.state, open : true});
     }
@@ -84,39 +94,59 @@ class Board extends Component{
 
     render(){
         const boardlist = this.state.results.map((item, key) => {
+            console.log(item);
             return (<View style={{flex: 1, padding: 16}}>
                     <TouchableOpacity
-                        style={styles.buttonStyle}
+                        style={styles.boardStyle}
                         activeOpacity={0.5}
                         onPress = {() => this.setState({...this.state, boardcheck : true, title : item.title, nickName : item.nickName, content : item.content, date : item.date})}>
-                        <Text style={styles.buttonTextStyle}>{item.title}</Text>
-                        <Text style={styles.buttonTextStyle}>{item.nickName}</Text>
-                        <Text style={styles.buttonTextStyle}>{item.date}</Text>
+                        <Text style={styles.textTitleStyle}>제목 : {item.title}</Text>
+                        <Text style={styles.textStyle}>닉네임 : {item.nickName}</Text>
+                        <Text style={styles.textStyle}>날짜 : {item.date}</Text>
                     </TouchableOpacity>
                 </View>)
         });
 
         if(this.state.open){
-            return <Modal open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></Modal>
+            return <ModalEx open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></ModalEx>
         }
         //게시판 내용으로 들어가는 컴포넌트
         else if(this.state.boardcheck){
-            return (<Bullet examId = {this.state.examId} title = {this.state.title} content = {this.state.content} nickName = {this.state.nickName} date = {this.state.date}></Bullet>);
+            return (<Bullet redirect = {() => this.backBoard()} examId = {this.state.examId} title = {this.state.title} content = {this.state.content} nickName = {this.state.nickName} date = {this.state.date}></Bullet>);
         }
         //글작성시 눌리는 컴포넌트
         else if(this.state.writecheck){
-            return <Write examId = {this.state.examId}></Write>;
+            return <Write examId = {this.state.examId} redirect = {() => this.writeComplete()}></Write>;
         }
         else{
             return (
                 <View>
                     <ScrollView>
                         {boardlist}
-                    <Button onPress = {() => this.decreasePage()} title = "prev"></Button>
-                    <TextInput onChangeText = {(text) => this.setState({...this.state,  searchWord : text})}></TextInput>
-                    <Text>{this.state.page}</Text>
-                    <Button onPress = {() => this.increasePage()} title = "next"></Button>
-                    <Button onPress = {() => this.setState({...this.state, writecheck : true})} title = "글 작성"></Button>
+                        <TouchableOpacity
+                            style={styles.buttonStyle}
+                            onPress = {() => this.setState({...this.state, writecheck : true})}>
+                            <Text style={styles.buttonTextStyle}>글 작성</Text>
+                        </TouchableOpacity>
+                        <TextInput onChangeText = {(text) => this.setState({...this.state,  searchWord : text})}></TextInput>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                marginHorizontal:'42%',
+                                borderWidth: 2,
+                                width:60,
+                            }}
+                        >
+                            page : {this.state.page}
+                        </Text>
+                        <View style={styles.fixToText}>
+                            <TouchableOpacity style={styles.bottombuttonStyle} onPress = {() => this.decreasePage()}>
+                                <Text style={styles.buttonTextStyle}>prev</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.bottombuttonStyle} onPress = {() => this.increasePage()}>
+                                <Text style={styles.buttonTextStyle}>next</Text>
+                            </TouchableOpacity>
+                        </View>
                     </ScrollView> 
                 </View>
             )
@@ -142,20 +172,53 @@ const styles = StyleSheet.create({
       margin: 10,
     },
     buttonStyle: {
-      backgroundColor: '#7DE24E',
-      borderWidth: 0,
-      color: '#FFFFFF',
-      borderColor: '#7DE24E',
-      height: 40,
-      alignItems: 'center',
-      borderRadius: 30,
-      marginLeft: 35,
-      marginRight: 35,
-      marginTop: 20,
-      marginBottom: 25,
+        backgroundColor: 'blue',
+        borderWidth: 0,
+        color: '#FFFFFF',
+        borderColor: '#7DE24E',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 15,
+        marginLeft: 35,
+        marginRight: 35,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    bottombuttonStyle:{
+        backgroundColor: 'blue',
+        borderWidth: 0,
+        color: '#FFFFFF',
+        borderColor: '#7DE24E',
+        height: 50,
+        width:50,
+        alignItems: 'center',
+        borderRadius: 5,
+        marginHorizontal:50,
+    },
+    fixToText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginHorizontal:10,
+    },
+    boardStyle:{
+        backgroundColor:"#BBBBFF",
+        height: 70,
+        width:'80%',
+        alignItems: 'center',
+        marginHorizontal:40,
+        borderWidth:2,
+    },
+    textTitleStyle:{
+        fontSize: 16,
+        color: 'black',
+        fontWeight:'bold',
+    },
+    textStyle:{
+        fontSize: 16,
+        color: 'black',
     },
     buttonTextStyle: {
-      color: '#FFFFFF',
+      color: 'white',
       paddingVertical: 10,
       fontSize: 16,
     },

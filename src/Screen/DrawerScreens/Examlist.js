@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Board from './Board';
 import exam_code from './exam_code';
+import ModalEx from '../ModalEx';
 
 const Examlist = ({props}) => {
     const [key, setKey] = useState(Object.keys(exam_code));
@@ -39,7 +40,7 @@ const Examlist = ({props}) => {
     }
 
     if(open == true){
-        return <Modal open = {openModal()} close = {closeModal()} header = {message}></Modal>
+        return <ModalEx open = {openModal()} close = {closeModal()} header = {message}></ModalEx>
     }
     else if(bulletcheck == true && examId != ""){
         return <Board examId = {examId}></Board>;

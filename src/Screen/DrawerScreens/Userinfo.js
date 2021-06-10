@@ -12,9 +12,10 @@ import {
   TouchableOpacity,
   Button,
   ScrollView,
-  Picker,
+  TextInput,
 } from 'react-native';
-import Modal from '../Modal';
+import {Picker} from '@react-native-community/picker';
+import ModalEx from '../ModalEx';
 import Chart from './Chart';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -58,7 +59,6 @@ class Userinfo extends React.Component{
         }
         else{
             var body = {'nickName' : nickName};
-            console.dir(body);
             fetch('http://172.30.1.47:3000/examboard/userinfo', {
                 method : 'POST',
                 mode : 'cors',
@@ -71,6 +71,7 @@ class Userinfo extends React.Component{
             })
             .then(res => res.json())
             .then(json => {
+                console.log(json);
                 if(json.hasOwnProperty('error_message')){
                     this.setState({...this.state, open : true, message : json['error_message']});
                 }
@@ -106,8 +107,8 @@ class Userinfo extends React.Component{
                 this.setState({...this.state, open : true, message : json['error_message']});
             }
             else if(json.hasOwnProperty('success_message')){
-                console.dir(this.state.score);
-                this.setState({...this.state, open : true , message : "Loding....", score : json['success_message']});
+                this.setState({...this.state, open : true , message : "Loading....", score : json['success_message']});
+                console.log(this.state.score[0][this.state.examId])
             }
         })
         .catch(error => console.log('Error : ', error));
@@ -223,7 +224,7 @@ class Userinfo extends React.Component{
                 quality : 1,
                 base64 : true,
             })
-            
+
             if(image){
                 this.uploadImg(image);
             }
@@ -235,7 +236,7 @@ class Userinfo extends React.Component{
             this.setState({...this.state, open : true, message : "등록할 점수의 시험이름을 설정해 주세요"});
             return;
         }
-        var body = {'nickName' : this.state.nickName, 'image' : image.base64};
+        var body = {'nickName' : this.state.nickName, 'image' : image.base64, 'examId' : this.state.examId};
         fetch('http://172.30.1.47:3000/examboard/examimgupload', {
             method : 'POST',
             mode : 'cors',
@@ -305,43 +306,84 @@ class Userinfo extends React.Component{
     {
         return (
             (this.state.open ? 
-            <Modal open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></Modal> :
+            <ModalEx open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></ModalEx> :
+            <ScrollView>
             <View class="App">
                 <View id="one">
-                        <View className="form-inner">
-                            <Text>나의 정보</Text>
+                        <View className="form-inner"
+                        style={{marginTop:10}}>
+                            <Text
+                                style={{
+                                    textAlign:"center",
+                                    fontSize:20,
+                                    fontWeight:'bold',
+                                    marginBottom:5,
+                                    marginTop:10,
+
+                                }}>나의 정보</Text>
                             {!this.state.canrewrite ?
-                            <Button id="specialone" onClick = {() => this.setRewrite()} title = "수정하기"/>
+                            <TouchableOpacity 
+                                id="specialone" 
+                                onPress = {() => this.setRewrite()}
+                                style={styles.buttonStyle}>
+                                <Text style={styles.buttonTextStyle}>
+                                    수정하기
+                                </Text>
+                            </TouchableOpacity>
                             :
                             <View>
                             <View className="form-group">
-                                <Text htmlFor="name">ID:</Text>
-                                <TextInput value = {this.state.userId} onChangeText = {(text) => this.setState({...this.state, userId : text})}/>
+                                <Text htmlFor="name" style={styles.textStyle}>ID:</Text>
+                                <TextInput 
+                                    style={styles.textInputStyle}
+                                    value = {this.state.userId} onChangeText = {(text) => this.setState({...this.state, userId : text})}/>
                             </View>
                             <View className="form-group">
-                                <Text htmlFor="password">Password:</Text>
-                                <TextInput value = {this.state.userPassword} onChangeText = {(text) => this.setState({...this.state, userPassword : text})}/>
+                                <Text htmlFor="password" style={styles.textStyle}>Password:</Text>
+                                <TextInput style={styles.textInputStyle} value = {this.state.userPassword} onChangeText = {(text) => this.setState({...this.state, userPassword : text})}/>
                             </View>
                             <View className="form-group">
-                                <Text htmlFor="nickname">닉네임:</Text>
-                                <TextInput value = {this.state.nickName} onChangeText = {(text) => this.setState({...this.state, nickName : text})}/>
+                                <Text htmlFor="nickname" style={styles.textStyle}>닉네임:</Text>
+                                <TextInput style={styles.textInputStyle} value = {this.state.nickName} onChangeText = {(text) => this.setState({...this.state, nickName : text})}/>
                             </View>
-                            <Button id = 'specialone' onClick = {() => this.rewriteinfo()} title = "개인번호 수정"/> 
+                            <TouchableOpacity style={styles.buttonStyle} id = 'specialone' onPress = {() => this.rewriteinfo()}> 
+                                <Text style={styles.buttonTextStyle}>
+                                    개인정보 수정
+                                </Text>
+                            </TouchableOpacity>
                             <View className="form-group">
-                                <Text htmlFor="phone-number">Phone-Number:</Text>
-                                <TextInput type="phone-number" name="phone-number" id="phone-number" value = {this.state.phoneNumber} onChangeText = {(text) => this.setState({...this.state, phoneNumber : text, checkphonenumber : false})}/>
-                                <Button onClick = {() => this.checkPhonenumber()} title = "인증번호 전송"></Button>
-                                <TextInput type="verifycode" name = "verifycode" id = "veriftycode" value = {this.state.userVerifyCode} onChangeText = {e => this.setState({...this.state, userVerifyCode : text})}/>
-                                <Button onClick = {() => this.checkVerifycode()} title = "인증번호 확인"/>
-                                <Button onClick = {() => this.rewritePhone()} title = "휴대폰 번호 수정"/>
+                                <Text style={styles.textStyle} htmlFor="phone-number">Phone-Number:</Text>
+                                <TextInput style={styles.textInputStyle} type="phone-number" name="phone-number" id="phone-number" value = {this.state.phoneNumber} onChangeText = {(text) => this.setState({...this.state, phoneNumber : text, checkphonenumber : false})}/>
+                                <TouchableOpacity style={styles.buttonStyle} onPress = {() => this.checkPhonenumber()}>
+                                    <Text style={styles.buttonTextStyle}>
+                                        인증번호 전송
+                                    </Text>
+                                </TouchableOpacity>
+                                <TextInput style={styles.textInputStyle} 
+                                    type="verifycode" name = "verifycode" id = "veriftycode" value = {this.state.userVerifyCode} onChangeText = {e => this.setState({...this.state, userVerifyCode : text})}
+                                    placeholder="인증번호"/>
+                                <TouchableOpacity style={styles.buttonStyle} onPress = {() => this.checkVerifycode()}>
+                                    <Text style={styles.buttonTextStyle}>
+                                        인증번호 확인
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.buttonStyle} onPress = {() => this.rewritePhone()}>
+                                    <Text style={styles.buttonTextStyle}>
+                                        전화번호 변경
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                             </View>
                             }
-                            <View className="unique">
-                                <Picker name="ex" onChangeValue = {(itemValue, itemIndex) => this.setState({...this.state, examId : itemValue})} value = {this.state.examId}>
-                                    <Picker.Item label = "toeic" value="toeic"/>
-                                    <Picker.Item label = "toefl" value="toefl"/>
-                                    <Picker.Item label = "teps" value="teps"/>
+                            <View>      
+                                <Picker style={{
+                                    marginHorizontal:"35%",
+                                    width: 150,
+                                }}
+                                    onValueChange = {(itemValue, itemIndex) => {this.setState({...this.state, examId : itemValue}, () => {this.getScore()});}} selectedValue = {this.state.examId}>
+                                        <Picker.Item style={{fontSize:20,}} label = "toeic" value = "toeic"/>
+                                        <Picker.Item label = "toefl" value = "toefl"/>
+                                        <Picker.Item label = "teps" value = "teps"/>
                                 </Picker>
                                     {/* <TextInput type="radio" name="toeic" id="toeic"></TextInput>
                                     <Text for="toeic">토익 점수</Text>
@@ -354,21 +396,81 @@ class Userinfo extends React.Component{
                                     <TextInput type="radio" name="teps" id="teps"></TextInput>
                                     <Text for="teps">텝스 점수</Text>
                                     <Button id="specialseven">수정</Button> */}
-                                {/*<Chart score = {this.state.score} examId = {this.state.examId}></Chart>*/}
-                                <Button id = "specialone" onClick = {() => this.getScore()} title = "시험 점수 확인"></Button>
+                                <Chart score = {this.state.score} examId = {this.state.examId}></Chart>
                             </View>
                             {!this.state.uploadedImg ?     
                                 <View className="form-group">
-                                    <Button id = "specialone" onClick = {() => this.uploadImg()} title = "시험인증사진 업로드"></Button>
+                                    <TouchableOpacity style={styles.buttonStyle} id = "specialone" onPress = {() => this.takeImage()}>
+                                        <Text style={styles.buttonTextStyle}>
+                                            시험인증사진 업로드
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                                 :
-                                    <Text>이미지 업로드 완료</Text>
+                                    <Text style={styles.nomalTextStyle}>이미지 업로드 완료</Text>
                             }
                     </View>
                 </View>
             </View>
+            </ScrollView>
         ));
     }
 }
 
 export default Userinfo;
+
+const styles = StyleSheet.create({
+    buttonStyle: {
+        width:"50%",
+      backgroundColor: 'blue',
+      borderWidth: 1,
+      color: '#FFFFFF',
+      borderColor: '#006600',
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 30,
+      marginLeft: "25%",
+      marginTop: 15,
+      marginBottom: 20,
+    },
+    buttonTextStyle: {
+      color: '#FFFFFF',
+      textAlign: 'center',
+      paddingVertical: 6,
+      fontSize: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight: 'bold',
+    },
+    inputTextStyle: {
+        borderWidth: 2,
+        color:'black',
+        borderColor: 'black',
+        backgroundColor: "#FFFFCC",
+        textAlign:'center',
+        width:"70%",
+        marginLeft:"15%",
+    },
+    textStyle:{
+        marginHorizontal:30,
+        backgroundColor:'white',
+        fontSize:17,
+        fontWeight:'bold',
+        borderWidth:2,
+        marginVertical:2,
+    },
+    textInputStyle:{
+        marginHorizontal:30,
+        fontSize:17,
+        fontWeight:'bold',
+        borderWidth:2,
+        backgroundColor:'#FFFFCC',
+        marginVertical:2,
+    },
+    nomalTextStyle:{
+        fontSize:20,
+        fontWeight:'bold',
+        textAlign:"center",
+    },
+  });

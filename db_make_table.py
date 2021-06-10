@@ -15,7 +15,9 @@ try:
             content varchar(1000) NOT NULL,
             nickName varchar(20) NOT NULL,
             date datetime default now(),
-            FOREIGN KEY(title) REFERENCES teps(title)
+            FOREIGN KEY(title) REFERENCES toefl(title)
+            on delete cascade
+            on update cascade
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
         '''
         cursor.execute(sql)
@@ -99,6 +101,8 @@ finally:
 #             nickName varchar(20) NOT NULL,
 #             date datetime default now(),
 #             FOREIGN KEY(title) REFERENCES teps(title)
+#             on delete cascade 
+#             on update cascade
 #         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 #         CREATE TABLE comment_toeic (
@@ -107,6 +111,8 @@ finally:
 #             nickName varchar(20) NOT NULL,
 #             date datetime default now(),
 #             FOREIGN KEY(title) REFERENCES toeic(title)
+#             on delete cascade
+#             on update cascade
 #         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 #         CREATE TABLE comment_toefl (
@@ -115,5 +121,7 @@ finally:
 #             nickName varchar(20) NOT NULL,
 #             date datetime default now(),
 #             FOREIGN KEY(title) REFERENCES toefl(title)
+#             on delete cascade
+#             on update cascade
 #         ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 #         '''

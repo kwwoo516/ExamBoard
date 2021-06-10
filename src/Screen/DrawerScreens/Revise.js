@@ -12,7 +12,7 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import Modal from '../Modal';
+import ModalEx from '../ModalEx';
 
 class Revise extends React.Component{
     constructor(props){
@@ -61,7 +61,7 @@ class Revise extends React.Component{
     }
 
     rewriteComplete = () => {
-        if(this.state.disabled){
+        if(this.state.prevtitle != this.state.title && this.state.disabled){
             this.setState({...this.state, open : true, message : "제목 중복확인을 해주세요"});
             return;
         }
@@ -84,6 +84,7 @@ class Revise extends React.Component{
             }
             else if(json.hasOwnProperty('success_message')){
                 this.setState({...this.state, open : true, message : "글 수정을 완료했습니다.", redirect : true});
+                this.props.redirect();
             }
         })
         .catch(error => {
@@ -112,18 +113,22 @@ class Revise extends React.Component{
             backgroundColor: "rosybrown",
         }
         return(
-            (this.state.open ? <Modal open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></Modal> :
+            (this.state.open ? <ModalEx open = {() => this.openModal()} close = {() => this.closeModal()} header = {this.state.message}></ModalEx> :
             this.state.redirect ? <Text>Redirect 필요</Text> :
             <View style={contentStlye}>
-                <Text>글수정</Text>
+                <Text style={styles.headerTextStyle}>글수정</Text>
                 <View className="form-group">
-                    <TextInput onChangeText = {(text) => this.setState({...this.state, title : text})} value = {this.state.title} placeholderText = {this.state.title}/>
-                    <Button onPress={() => this.checkTitle()} title = "중복확인"/>
+                    <TextInput style={{backgroundColor: "#FFFFCC",borderWidth:2,}} onChangeText = {(text) => this.setState({...this.state, title : text})} value = {this.state.title} placeholderText = {this.state.title}/>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => this.checkTitle()}>
+                        <Text style={styles.buttonTextStyle}>중복확인</Text>
+                    </TouchableOpacity>
                 </View>
                 <View className="form-group">
-                    <TextInput multiline = {true} onChangeText = {(text) => this.setState({...this.state, content : text})} value = {this.state.content} placeholderText = {this.state.content}/>
+                    <TextInput style={{backgroundColor: "#FFFFCC",borderWidth:2,height:200}} multiline = {true} onChangeText = {(text) => this.setState({...this.state, content : text})} value = {this.state.content} placeholderText = {this.state.content}/>
                 </View>
-                <Button onPress = {() => this.rewriteComplete()} title = "수정완료"></Button>
+                <TouchableOpacity style={styles.buttonStyle} onPress = {() => this.rewriteComplete()}>
+                    <Text style={styles.buttonTextStyle}>수정완료</Text>
+                </TouchableOpacity>
             </View>
             )
         );
@@ -131,3 +136,76 @@ class Revise extends React.Component{
 }
 
 export default Revise;
+
+const styles = StyleSheet.create({
+    mainBody: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: '#307ecc',
+      alignContent: 'center',
+    },
+    sideText:{
+        textAlign:'right',
+        fontSize:13,
+    },
+    bodyText:{
+        fontSize:15,
+        marginHorizontal:5,
+    },
+    buttonStyle: {
+      backgroundColor: 'blue',
+      borderWidth: 0,
+      color: '#FFFFFF',
+      borderColor: '#7DE24E',
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 10,
+      marginLeft: 50,
+      marginRight: 50,
+      marginTop: 5,
+      marginBottom: 5,
+    },
+    DisablebuttonStyle: {
+        backgroundColor: 'skyblue',
+        borderWidth: 0,
+        color: '#FFFFFF',
+        borderColor: '#7DE24E',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: 35,
+        marginRight: 35,
+        marginTop: 10,
+        marginBottom: 10,
+      },
+    buttonTextStyle: {
+      color: '#FFFFFF',
+      paddingVertical: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    inputStyle: {
+      flex: 1,
+      color: 'white',
+      paddingLeft: 15,
+      paddingRight: 15,
+      borderWidth: 1,
+      borderRadius: 30,
+      borderColor: '#dadae8',
+    },
+    registerTextStyle: {
+      color: '#FFFFFF',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 14,
+      alignSelf: 'center',
+      padding: 10,
+    },
+    headerTextStyle: {
+        marginVertical:10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+  });
